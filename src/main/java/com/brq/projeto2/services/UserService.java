@@ -2,6 +2,7 @@ package com.brq.projeto2.services;
 
 
 import com.brq.projeto2.domain.User;
+import com.brq.projeto2.dto.UserDTO;
 import com.brq.projeto2.repositories.UserRepository;
 import com.brq.projeto2.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public class UserService {
        Optional<User> user = repo.findById(id);
 
         return  user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+    }
+
+    public User insert(User obj){
+        return repo.insert(obj);
+    }
+    public User fromDTO(UserDTO objDto){
+        return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
     }
 }
