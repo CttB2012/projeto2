@@ -1,6 +1,7 @@
 package com.brq.projeto2.resources;
 
 
+import com.brq.projeto2.domain.Post;
 import com.brq.projeto2.domain.User;
 import com.brq.projeto2.dto.UserDTO;
 import com.brq.projeto2.services.UserService;
@@ -54,4 +55,9 @@ public class UserResource {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
+    }
 }
