@@ -4,8 +4,8 @@ package com.brq.projeto2.services;
 import com.brq.projeto2.domain.User;
 import com.brq.projeto2.dto.UserDTO;
 import com.brq.projeto2.repositories.UserRepository;
-import com.brq.projeto2.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +21,18 @@ public class UserService {
     public List<User> findAll() {
         return repo.findAll();
     }
-    public User findById(String id) {
-       Optional<User> user = repo.findById(id);
-        return  user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+    public UserDTO findById(String id) {
+        try {
+            Optional<User> user = repo.findById(id);
+            UserDTO userDTO = new UserDTO();
+            User userDataBase = user.get();
+            userDTO.setName(userDataBase.getName());
+            userDTO.setEmail(userDataBase.getEmail());
+            return userDTO;
+        }
+        catch (Exception e){
+            throw new ResourceNotFoundException(id);
+        }
     }
     public User insert(User obj){
         return repo.insert(obj);
@@ -33,9 +42,9 @@ public class UserService {
         repo.deleteById(id);
     }
     public User update(User obj){
-        User newObj = findById(obj.getId());
-        updateData(newObj, obj);
-        return repo.save(newObj);
+        Optional<User> newObj = repo.findById(obj.getId());
+        updateData(newObj.get(), obj);
+        return repo.save(newObj.get());
     }
     private void updateData(User newObj, User obj) {
         newObj.setName(obj.getName());

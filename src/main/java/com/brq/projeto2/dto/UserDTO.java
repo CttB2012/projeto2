@@ -1,16 +1,32 @@
 package com.brq.projeto2.dto;
 
+import com.brq.projeto2.domain.Post;
 import com.brq.projeto2.domain.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class UserDTO implements Serializable {
-    private static final long serialVersionUID = 1l;
 
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserDTO implements Serializable {
+
+    @JsonProperty("user_id")
     private String id;
+    @JsonProperty("nome")
     private String name;
+    @JsonProperty("email")
     private String email;
+
+    @DBRef(lazy = true)
+    private List<Post> posts = new ArrayList<>();
 
     public UserDTO() {
     }
@@ -46,5 +62,13 @@ public class UserDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

@@ -31,8 +31,8 @@ public class UserResource {
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-        User obj = service.findById(id);
-        return ResponseEntity.ok().body(new UserDTO(obj));
+        UserDTO obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
     }
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO objDto){
@@ -57,7 +57,7 @@ public class UserResource {
 
     @GetMapping(value = "/{id}/posts")
     public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
-        User obj = service.findById(id);
+        UserDTO obj = service.findById(id);
         return ResponseEntity.ok().body(obj.getPosts());
     }
 }
