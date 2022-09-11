@@ -5,7 +5,6 @@ import com.brq.projeto2.domain.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.io.Serializable;
@@ -30,24 +29,19 @@ public class UserDTO implements Serializable {
 
     public UserDTO() {
     }
-
     public UserDTO(User obj) {
         id = obj.getId();
         name = obj.getName();
         email = obj.getEmail();
     }
-
     public UserDTO(Optional<User> obj) {
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
